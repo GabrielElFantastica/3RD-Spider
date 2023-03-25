@@ -25,12 +25,9 @@ def get_inventory(kauf_id):
     # print(doc)
     soup = str(BeautifulSoup(doc, "lxml"))
     inventory: list[Any] = re.findall(find_inventory, soup)
-    print(inventory)
     inventory = inventory[-1]
-    print(inventory)
     return inventory
 
-# num = get_inventory(kauf_id)
 def get_url(url):
     html = requests.get(url=url).text
     soup = BeautifulSoup(markup=html, features="lxml")
@@ -47,7 +44,6 @@ def getData(link):
             url = link + "p" + str(a) + "/"  # 网址
         else:
             url = link + "&page=" + str(a)
-        print(url)
         head = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                           "Chrome/93.0.4577.63 Safari/537.36 "
@@ -106,13 +102,11 @@ def getData(link):
                 # qa = int(qa[0])
                 qa = qa[0]
                 data.append(qa)  # 取所有找到的qa中的第一个
-                print(qa)
                 data.append("sor")
             except IndexError:
                 b += 1
                 data.append(b)
                 data.append("")
-                print(item)
 
             comment = re.findall(findComment, item)
             try:
@@ -129,24 +123,4 @@ def getData(link):
 
 getData(link)
 print(datalist)
-
-'''
-soup = get_url(url=link)
-items = soup.find_all('article')
-i = 0
-for item in items:
-    i += 1  # 每次循环+1
-    print("第%s条" % i)
-    item = str(item)
-
-    title = re.findall(findTitle, item)[0].strip()
-    print(title)
-
-    seller = re.findall(findSeller, title)[0]
-    sku = re.findall(findSKU, title)[0]
-
-    print(seller, sku)
-    # print(item)
-    
-'''
 
